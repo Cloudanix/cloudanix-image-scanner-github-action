@@ -1,0 +1,45 @@
+name: "Cloudanix Image Scanner"
+description: "Image Scanner Scans container images for vulnerabilities"
+author: "Cloudanix"
+inputs:
+  type:
+    description: "Scan type to use for scanning vulnerability"
+    required: false
+    default: "image"
+  image:
+    description: "image reference(for backward compatibility)"
+    required: true
+  format:
+    description: "output format (table, json, template)"
+    required: false
+    default: "table"
+  scan-type:
+    description: "comma-separated list of what security issues to detect"
+    required: false
+    default: "vuln"
+  timeout:
+    description: "timeout (default 5m0s)"
+    required: false
+    default: "5m0s"
+  api-endpoint:
+    description: "Cloudanix API Endpoint"
+    required: true
+  authz-token:
+    description: "Cloudanix Authorization Token"
+    required: true
+  identifier:
+    description: "Cloudanix Account Identifier"
+    required: true
+
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - "-a ${{ inputs.type }}"
+    - "-b ${{ inputs.image }}"
+    - "-c ${{ inputs.format }}"
+    - "-d ${{ inputs.scan-type }}"
+    - "-e ${{ inputs.timeout }}"
+    - "-f ${{ inputs.api-endpoint }}"
+    - "-g ${{ inputs.authz-token }}"
+    - "-h ${{ inputs.identifier }}"
