@@ -29,10 +29,11 @@ The vulnerabilities of the Docker Image.
 ## Example usage
 
 ```yml
-uses: cloudanix/image-scanner:v0.0.2
-with:
-  image: 'ubuntu:24.10'
-  api-endpoint: 'https://api.api.com'
-  authz-token: 'token-12345'
-  identifier: 'identifier-12345'
+- name: Run Cloudanix Image Vulnerability Scanner
+  uses: cloudanix/cloudanix-image-scanner-github-action@v0.0.2
+  with:
+    image: 'ubuntu:24.10'
+    api-endpoint: '${{ secrets.CDX_API_ENDPOINT }}'
+    authz-token: '${{ secrets.CDX_AUTHZ_TOKEN }}'
+    identifier: '${{ secrets.CDX_ACCOUNT_IDENTIFIER }}'
 ```
