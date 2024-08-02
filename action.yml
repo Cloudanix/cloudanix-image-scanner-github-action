@@ -1,6 +1,9 @@
 name: "Cloudanix Image Scanner"
 description: "Image Scanner Scans container images for vulnerabilities"
 author: "Cloudanix"
+branding:
+  icon: 'activity'
+  color: 'blue'
 inputs:
   type:
     description: "Scan type to use for scanning vulnerability"
