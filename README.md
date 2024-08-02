@@ -28,7 +28,7 @@ The vulnerabilities of the Docker Image.
 
 ## Example usage
 
-uses: cloudanix/image-scanner@master
+uses: cloudanix/image-scanner:v0.0.2
 with:
   image: "ubuntu:24.10"
   api-endpoint: "https://api.api.com"
