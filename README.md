@@ -1,4 +1,4 @@
-# Image Scanner action
+# Cloudanix Image Vulnerability Scanner
 
 This Github Action from Cloudanix scans your docker images for Vulnerabilities.
 
