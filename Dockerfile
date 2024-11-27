@@ -1,5 +1,5 @@
 # Container image that scans code
-FROM cloudanix/image-scanner:v0.0.2
+FROM cloudanix/image-scanner
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
