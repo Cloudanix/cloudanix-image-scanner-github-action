@@ -29,7 +29,7 @@ while getopts "a:b:c:d:e:f:g:h:i:" o; do
   esac
 done
 
-image-scanner $type $imageRef --format $format --scanners $scanType --api-endpoint $apiEndpoint --authz-token $authZToken --identifier $identifier
+image-scanner $type $imageRef --no-progress --db-repository "ghcr.io/aquasecurity/trivy-db,docker.io/aquasec/trivy-db" --java-db-repository "ghcr.io/aquasecurity/trivy-java-db,docker.io/aquasec/trivy-java-db" --format $format --scanners $scanType --api-endpoint $apiEndpoint --authz-token $authZToken --identifier $identifier
 
 returnCode=$?
 
