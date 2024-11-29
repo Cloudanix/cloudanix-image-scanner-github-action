@@ -17,6 +17,11 @@ while getopts "a:b:c:d:" o; do
   esac
 done
 
+echo "imageRef - $imageRef"
+echo "authZToken - $authZToken"
+echo "identifier - $identifier"
+echo "debugMode - $debugMode"
+
 imagescanner --imageToScan $imageRef --authZToken $authZToken --identifier $identifier --debugMode $debugMode
 
 returnCode=$?
