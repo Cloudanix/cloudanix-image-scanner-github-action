@@ -6,7 +6,7 @@ branding:
   color: "blue"
 inputs:
   image:
-    description: "image reference(for backward compatibility)"
+    description: "Image to Scan"
     required: true
   authz-token:
     description: "Cloudanix Authorization Token"

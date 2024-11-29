@@ -12,7 +12,7 @@ while getopts "a:b:c:d:" o; do
       export identifier="${OPTARG}"
     ;;
     d)
-      export debugMode="${OPTARG:false}"
+      export debugMode="${OPTARG-"false"}"
     ;;
   esac
 done
