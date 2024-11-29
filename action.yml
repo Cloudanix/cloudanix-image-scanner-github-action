@@ -17,6 +17,7 @@ inputs:
   debug-mode:
     description: "Enable Debug Mode"
     required: false
+    default: "false"
 
 runs:
   using: "docker"

@@ -12,7 +12,7 @@ while getopts "a:b:c:d:" o; do
       export identifier="${OPTARG}"
     ;;
     d)
-      export debugMode="${OPTARG-"false"}"
+      export debugMode="${OPTARG:-"false"}"
     ;;
   esac
 done
@@ -20,6 +20,9 @@ done
 echo "imageRef - $imageRef"
 echo "authZToken - $authZToken"
 echo "identifier - $identifier"
+echo "debugMode - $debugMode"
+
+export debugMode="${debugMode:-"false"}"
 echo "debugMode - $debugMode"
 
 imagescanner --imageToScan $imageRef --authZToken $authZToken --identifier $identifier --debugMode $debugMode
