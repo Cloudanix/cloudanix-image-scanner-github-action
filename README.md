@@ -16,7 +16,7 @@ This Github Action from Cloudanix scans your docker images for Vulnerabilities.
 
 **Required** Unique Identifier
 
-## `debugMode`
+## `debug-mode`
 
 **Optional** Enable Debug Mode
 
