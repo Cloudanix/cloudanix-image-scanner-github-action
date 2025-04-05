@@ -30,7 +30,7 @@ The vulnerabilities of the Docker Image.
 
 ```yml
 - name: Run Cloudanix Image Vulnerability Scanner
-  uses: cloudanix/cloudanix-image-scanner-github-action@v0.0.5
+  uses: cloudanix/cloudanix-image-scanner-github-action@v0.0.6
   with:
     image: 'ubuntu:24.10'
     authz-token: '${{ secrets.CDX_AUTHZ_TOKEN }}'
