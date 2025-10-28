@@ -1,5 +1,5 @@
 name: "Cloudanix Image Scanner"
-description: "Image Scanner Scans container images for vulnerabilities"
+description: "Image Scanner Scans container images for vulnerabilities with Policy based evaluation"
 author: "Cloudanix"
 branding:
   icon: "activity"
@@ -14,6 +14,10 @@ inputs:
   identifier:
     description: "Cloudanix Account Identifier"
     required: true
+  enable-policy-evaluation:
+    description: "Enable Policy Evaluation"
+    required: false
+    default: "true"
   debug-mode:
     description: "Enable Debug Mode"
     required: false
@@ -26,4 +30,5 @@ runs:
     - "-a ${{ inputs.image }}"
     - "-b ${{ inputs.authz-token }}"
     - "-c ${{ inputs.identifier }}"
-    - "-d ${{ inputs.debug-mode }}"
+    - "-d ${{ inputs.enable-policy-evaluation }}"
+    - "-e ${{ inputs.debug-mode }}"

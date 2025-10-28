@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-while getopts "a:b:c:d:" o; do
+while getopts "a:b:c:d:e" o; do
   case "${o}" in
     a)
       export imageRef="${OPTARG}"
@@ -12,13 +12,19 @@ while getopts "a:b:c:d:" o; do
       export identifier="${OPTARG}"
     ;;
     d)
+      export enablePolicyEvaluation="${OPTARG}"
+    ;;
+    e)
       export debugMode="${OPTARG:-"false"}"
+    ;;
+    *)
+      echo "invalid param"
     ;;
   esac
 done
 
-imagescanner --imageToScan $imageRef --authZToken $authZToken --identifier $identifier --debugMode $debugMode
+imagescanner --imageToScan "$imageRef" --authZToken "$authZToken" --identifier "$identifier" --enablePolicyEvaluation "$enablePolicyEvaluation" --debugMode "$debugMode"
 
-returnCode=$?
+returnCode="$?"
 
-exit $returnCode
+exit "$returnCode"

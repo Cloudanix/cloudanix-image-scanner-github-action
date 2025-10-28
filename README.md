@@ -1,6 +1,6 @@
 # Cloudanix Image Vulnerability Scanner
 
-This Github Action from Cloudanix scans your docker images for Vulnerabilities.
+This Github Action from Cloudanix scans your docker images for Vulnerabilities with Policy based evaluation.
 
 ## Inputs
 
@@ -16,9 +16,13 @@ This Github Action from Cloudanix scans your docker images for Vulnerabilities.
 
 **Required** Unique Identifier
 
+## `enable-policy-evaluation`
+
+**Optional** Enable Policy Evaluation. Defaults to true.
+
 ## `debug-mode`
 
-**Optional** Enable Debug Mode
+**Optional** Enable Debug Mode. Defaults to false.
 
 ## Outputs
 
@@ -30,7 +34,7 @@ The vulnerabilities of the Docker Image.
 
 ```yml
 - name: Run Cloudanix Image Vulnerability Scanner
-  uses: cloudanix/cloudanix-image-scanner-github-action@v0.0.6
+  uses: cloudanix/cloudanix-image-scanner-github-action@v0.0.7
   with:
     image: 'ubuntu:24.10'
     authz-token: '${{ secrets.CDX_AUTHZ_TOKEN }}'
