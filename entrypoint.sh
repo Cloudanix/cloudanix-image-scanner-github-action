@@ -12,7 +12,7 @@ while getopts "a:b:c:d:e" o; do
       export identifier="${OPTARG}"
     ;;
     d)
-      export enablePolicyEvaluation="${OPTARG}"
+      export disablePolicyEvaluation="${OPTARG}"
     ;;
     e)
       export debugMode="${OPTARG:-"false"}"
@@ -23,7 +23,7 @@ while getopts "a:b:c:d:e" o; do
   esac
 done
 
-imagescanner --imageToScan "$imageRef" --authZToken "$authZToken" --identifier "$identifier" --enablePolicyEvaluation "$enablePolicyEvaluation" --debugMode "$debugMode"
+imagescanner --imageToScan "$imageRef" --authZToken "$authZToken" --identifier "$identifier" --disablePolicyEvaluation "$disablePolicyEvaluation" --debugMode "$debugMode"
 
 returnCode="$?"
 

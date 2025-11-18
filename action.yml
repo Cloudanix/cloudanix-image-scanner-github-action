@@ -14,10 +14,10 @@ inputs:
   identifier:
     description: "Cloudanix Account Identifier"
     required: true
-  enable-policy-evaluation:
-    description: "Enable Policy Evaluation"
+  disable-policy-evaluation:
+    description: "Disable Policy Evaluation"
     required: false
-    default: "true"
+    default: "false"
   debug-mode:
     description: "Enable Debug Mode"
     required: false
@@ -30,5 +30,5 @@ runs:
     - "-a ${{ inputs.image }}"
     - "-b ${{ inputs.authz-token }}"
     - "-c ${{ inputs.identifier }}"
-    - "-d ${{ inputs.enable-policy-evaluation }}"
+    - "-d ${{ inputs.disable-policy-evaluation }}"
     - "-e ${{ inputs.debug-mode }}"
