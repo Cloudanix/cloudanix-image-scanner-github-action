@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-while getopts "a:b:c:d:e" o; do
+while getopts "a:b:c:d:e:" o; do
   case "${o}" in
     a)
       export imageRef="${OPTARG}"
