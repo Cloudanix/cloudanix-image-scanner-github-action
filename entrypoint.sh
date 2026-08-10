@@ -1,6 +1,10 @@
 #!/bin/bash
 set -e
-while getopts "a:b:c:d:e" o; do
+if [ -d /github/workspace ] && [ ! -e /workspace ]; then
+  ln -s /github/workspace /workspace
+fi
+
+while getopts "a:b:c:d:e:" o; do
   case "${o}" in
     a)
       export imageRef="${OPTARG}"
