@@ -26,6 +26,13 @@ inputs:
 runs:
   using: "docker"
   image: "Dockerfile"
+  # Each flag and its value must be separate list items. GitHub passes every
+  # item here as a single, unsplit argv token to the container's ENTRYPOINT
+  # (visible as `"-a value"` quoted-as-one in `docker run` invocations); a
+  # combined "-a ${{ inputs.image }}" item means bash's `getopts` in
+  # entrypoint.sh reads everything after the "a" -- including the space --
+  # as OPTARG, producing an image reference with a leading space that always
+  # fails to parse downstream.
   args:
     - "-a"
     - "${{ inputs.image }}"
