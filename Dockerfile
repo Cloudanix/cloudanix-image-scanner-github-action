@@ -5,7 +5,7 @@
 # meant every action version -- even ones pinned by tag/SHA -- silently
 # picked up whatever was newest on Docker Hub at run time. Bumping this tag
 # is now the only way the underlying scanner version changes.
-FROM cloudanix/container-image-scanner:v0.0.24
+FROM cloudanix/container-image-scanner:v0.0.25
 
 # Copies your code file from your action repository to the filesystem path `/` of the container
 COPY entrypoint.sh /entrypoint.sh
