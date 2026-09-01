@@ -1,3 +1,18 @@
+--- AUTO CONTEXT ---
+PROJECT OVERVIEW  1 files  0 edges  scanned 1m ago
+
+/  entrypoint.sh
+
+WAKE-UP BRIEFING:
+‹‹‹LCTX_PROJECT_FACTS_WAKEUP_3d332ceff8a4acfb874c8e8a0e773887›››
+FACTS:
+[auto:blocker] Finding: /Users/puru/code/cloudanix-image-scanner-github-action/CHANGELOG.md: Read …/cloudanix-image-scanner-github-action/CHANGELOG.md — # Changelog=Finding: /Users/puru/code/cloudanix-image-scanner-github-action/CHANGELOG.md: Read …/cloudanix-image-scanner-github-action/CHANGELOG.md — # Changelog|Finding: CHANGELOG.md: Read CHANGELOG.md (13L)=Finding: CHANGELOG.md: Read CHANGELOG.md (13L)
+‹‹‹LCTX_PROJECT_FACTS_WAKEUP_3d332ceff8a4acfb874c8e8a0e773887›››
+AGENTS:mcp-65023-4f83b59dc7ba4eedabc4243feefd80ab(coder),mcp-68907-7e4d1b044c2f4d878017a565088aacd8(context-engine)
+
+
+--- END AUTO CONTEXT ---
+
 # Cloudanix Image Vulnerability Scanner
 
 This Github Action from Cloudanix scans your docker images for Vulnerabilities with Policy based evaluation.
@@ -47,7 +62,8 @@ The vulnerabilities of the Docker Image.
 
 | Action version | Base `cloudanix/container-image-scanner` | Notes |
 | --- | --- | --- |
-| `v0.0.9` | `v0.0.25` | Fixes CI/CD context metadata (repository/organization/commit) that could be sent empty; see the scanner's changelog for details. |
+| Unreleased | `v0.0.25` | Bumps the pin from `v0.0.24`. Adds Bitbucket pipeline support and a further GitHub Actions git `safe.directory` fix; see the scanner's changelog for details. |
+| `v0.0.9` | `v0.0.24` | First pinned scanner version. Fixes CI/CD context metadata (repository/organization/commit) that could be sent empty; see the scanner's changelog for details. |
 | `v0.0.8` and earlier | unpinned (`:latest`) | Moving target — every workflow run rebuilt this Dockerfile against whatever was newest on Docker Hub, regardless of which action tag you had pinned. |
 
 To move to a new scanner version, bump your `uses: cloudanix/cloudanix-image-scanner-github-action@<tag>` to the new tag once you've reviewed the corresponding release notes. Workflows still pinned to `v0.0.8` or earlier, or to `@main`, are unaffected until you make that change.
