@@ -1,14 +1,3 @@
---- AUTO CONTEXT ---
-PROJECT OVERVIEW  1 files  0 edges  scanned 1m ago
-
-/  entrypoint.sh
-
-WAKE-UP BRIEFING:
-AGENTS:mcp-65023-4f83b59dc7ba4eedabc4243feefd80ab(coder),mcp-68360-eb4913b3ff8f489a96186865fb507c1f(context-engine)
-
-
---- END AUTO CONTEXT ---
-
 # Changelog
 
 ## Unreleased

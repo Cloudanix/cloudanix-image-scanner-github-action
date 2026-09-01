@@ -1,18 +1,3 @@
---- AUTO CONTEXT ---
-PROJECT OVERVIEW  1 files  0 edges  scanned 1m ago
-
-/  entrypoint.sh
-
-WAKE-UP BRIEFING:
-‹‹‹LCTX_PROJECT_FACTS_WAKEUP_3d332ceff8a4acfb874c8e8a0e773887›››
-FACTS:
-[auto:blocker] Finding: /Users/puru/code/cloudanix-image-scanner-github-action/CHANGELOG.md: Read …/cloudanix-image-scanner-github-action/CHANGELOG.md — # Changelog=Finding: /Users/puru/code/cloudanix-image-scanner-github-action/CHANGELOG.md: Read …/cloudanix-image-scanner-github-action/CHANGELOG.md — # Changelog|Finding: CHANGELOG.md: Read CHANGELOG.md (13L)=Finding: CHANGELOG.md: Read CHANGELOG.md (13L)
-‹‹‹LCTX_PROJECT_FACTS_WAKEUP_3d332ceff8a4acfb874c8e8a0e773887›››
-AGENTS:mcp-65023-4f83b59dc7ba4eedabc4243feefd80ab(coder),mcp-68907-7e4d1b044c2f4d878017a565088aacd8(context-engine)
-
-
---- END AUTO CONTEXT ---
-
 # Cloudanix Image Vulnerability Scanner
 
 This Github Action from Cloudanix scans your docker images for Vulnerabilities with Policy based evaluation.
