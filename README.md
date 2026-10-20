@@ -28,6 +28,12 @@ You can also get debug output without editing the workflow: on a failed or finis
 
 Debug output never includes the authorization token.
 
+## When the step fails
+
+Only a policy failure (the image exceeds your policy thresholds) fails the step. If the scan cannot run, for example because of a configuration, network or scanner error, the step logs a warning annotation, `Cloudanix image scan failed with exit code N. Continuing without failing the build`, and passes. This needs an action release whose scanner pin exits `3` on a policy failure; see [Upgrading](#upgrading).
+
+GitHub builds this action's Docker image before the step runs. If that build fails, for example because Docker Hub is unreachable, the step fails before the scanner starts. Add `continue-on-error: true` to the step if that must not fail your job.
+
 ## Outputs
 
 ## `vulnerabilities`
