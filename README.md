@@ -18,7 +18,7 @@ This Github Action from Cloudanix scans your docker images for Vulnerabilities w
 
 ## `disable-policy-evaluation`
 
-**Optional** Disable Policy Evaluation. Defaults to false.
+**Optional** Disable Policy Evaluation. Defaults to false. Set `'true'` to report findings without failing the step. Releases before the one that pins a scanner with the boolean-flag fix never evaluated policy; see the [changelog](CHANGELOG.md).
 
 ## `debug-mode`
 
