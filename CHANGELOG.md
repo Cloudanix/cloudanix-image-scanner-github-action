@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Documented turning on debug output with **Re-run jobs > Enable debug logging** (`RUNNER_DEBUG`) or `CDX_DEBUG` in `env:`. Takes effect once the `Dockerfile` pins a scanner release that reads these variables ([`Cloudanix/container-image-scanner`](https://github.com/Cloudanix/container-image-scanner) branch `perf-fixes`); `v0.0.26` does not.
 - Bumped the `Dockerfile`'s `FROM cloudanix/container-image-scanner` pin from `:v0.0.24` to `:v0.0.25`.
   - Scanner `v0.0.25` adds Bitbucket pipeline support and a further GitHub Actions git `safe.directory` fix so repo/commit metadata can be attached to scan results. See [`Cloudanix/container-image-scanner`](https://github.com/Cloudanix/container-image-scanner) PR #29.
 

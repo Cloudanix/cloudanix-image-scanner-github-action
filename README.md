@@ -24,6 +24,10 @@ This Github Action from Cloudanix scans your docker images for Vulnerabilities w
 
 **Optional** Enable Debug Mode. Defaults to false.
 
+You can also get debug output without editing the workflow: on a failed or finished run, choose **Re-run jobs > Enable debug logging**. GitHub sets `RUNNER_DEBUG=1` for that run and passes it into this action's container, and the scanner turns on debug output. Setting `CDX_DEBUG: 'true'` in the step's or job's `env:` also works. Needs an action release whose scanner pin reads these variables; see [Upgrading](#upgrading).
+
+Debug output never includes the authorization token.
+
 ## Outputs
 
 ## `vulnerabilities`
