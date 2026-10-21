@@ -41,12 +41,15 @@ cmd=(
   --debugMode "$debugMode"
 )
 
-normalizedDisable="$(printf '%s' "$disablePolicyEvaluation" | tr '[:upper:]' '[:lower:]')"
-case "$normalizedDisable" in
-  1|true|yes|y|on)
-    cmd+=(--disablePolicyEvaluation true)
-    ;;
-esac
+# Older scanners read any non-empty value, including "false", as true.
+is_true() {
+  case "$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')" in
+    1|true|yes|y|on) return 0 ;;
+  esac
+  return 1
+}
+
+is_true "$disablePolicyEvaluation" && cmd+=(--disablePolicyEvaluation true)
 
 returnCode=0
 "${cmd[@]}" || returnCode=$?
