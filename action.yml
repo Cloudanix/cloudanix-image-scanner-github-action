@@ -19,9 +19,8 @@ inputs:
     required: false
     default: "false"
   debug-mode:
-    description: "Enable Debug Mode"
+    description: "Enable Debug Mode. Passed to the scanner only when 'true'"
     required: false
-    default: "false"
 
 runs:
   using: "docker"

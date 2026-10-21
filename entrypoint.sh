@@ -25,7 +25,7 @@ while getopts "a:b:c:d:e:" o; do
       export disablePolicyEvaluation="${OPTARG}"
     ;;
     e)
-      export debugMode="${OPTARG:-"false"}"
+      export debugMode="${OPTARG}"
     ;;
     *)
       echo "invalid param"
@@ -38,10 +38,10 @@ cmd=(
   --imageToScan "$imageRef"
   --authZToken "$authZToken"
   --identifier "$identifier"
-  --debugMode "$debugMode"
 )
 
-# Older scanners read any non-empty value, including "false", as true.
+# Boolean flags are passed only when enabled: older scanners read any
+# non-empty value, including "false", as true.
 is_true() {
   case "$(printf '%s' "$1" | tr '[:upper:]' '[:lower:]')" in
     1|true|yes|y|on) return 0 ;;
@@ -50,6 +50,7 @@ is_true() {
 }
 
 is_true "$disablePolicyEvaluation" && cmd+=(--disablePolicyEvaluation true)
+is_true "$debugMode" && cmd+=(--debugMode true)
 
 returnCode=0
 "${cmd[@]}" || returnCode=$?
