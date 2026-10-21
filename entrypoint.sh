@@ -1,7 +1,11 @@
 #!/bin/bash
-set -e
+# Only a policy failure fails the step. Anything else that goes wrong is a
+# Cloudanix-side problem and must never fail the customer's build, so there is
+# deliberately no `set -e`.
+POLICY_FAILURE_EXIT_CODE=3
+
 if [ -d /github/workspace ] && [ ! -e /workspace ]; then
-  ln -s /github/workspace /workspace
+  ln -s /github/workspace /workspace || echo "::warning::Could not link /workspace to /github/workspace"
 fi
 
 while getopts "a:b:c:d:e:" o; do
@@ -27,8 +31,13 @@ while getopts "a:b:c:d:e:" o; do
   esac
 done
 
-imagescanner --imageToScan "$imageRef" --authZToken "$authZToken" --identifier "$identifier" --disablePolicyEvaluation "$disablePolicyEvaluation" --debugMode "$debugMode"
+returnCode=0
+imagescanner --imageToScan "$imageRef" --authZToken "$authZToken" --identifier "$identifier" --disablePolicyEvaluation "$disablePolicyEvaluation" --debugMode "$debugMode" || returnCode=$?
 
-returnCode="$?"
-
-exit "$returnCode"
+if [ "$returnCode" -eq "$POLICY_FAILURE_EXIT_CODE" ]; then
+  exit "$returnCode"
+fi
+if [ "$returnCode" -ne 0 ]; then
+  echo "::warning::Cloudanix image scan failed with exit code $returnCode. Continuing without failing the build"
+fi
+exit 0

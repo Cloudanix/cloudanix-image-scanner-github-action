@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- **Policy evaluation now runs.** Every earlier release passed `--disablePolicyEvaluation false`, and [`Cloudanix/container-image-scanner`](https://github.com/Cloudanix/container-image-scanner) releases up to `v0.0.28` read any non-empty value as true, so policy was never evaluated. Once the `Dockerfile` pins a scanner release after `v0.0.28`, an image over your policy thresholds fails the step. Set `disable-policy-evaluation: 'true'` to keep the old report-only behavior.
+- The step fails only on a policy failure (scanner exit code `3`). Any other scanner error becomes a `::warning::` annotation and the step passes. Requires a scanner pin that exits `3` on a policy failure; `v0.0.26` exits `1`, which this release would treat as a warning.
+- Documented turning on debug output with **Re-run jobs > Enable debug logging** (`RUNNER_DEBUG`) or `CDX_DEBUG` in `env:`. Takes effect once the `Dockerfile` pins a scanner release that reads these variables ([`Cloudanix/container-image-scanner`](https://github.com/Cloudanix/container-image-scanner) branch `perf-fixes`); `v0.0.26` does not.
 - Bumped the `Dockerfile`'s `FROM cloudanix/container-image-scanner` pin from `:v0.0.24` to `:v0.0.25`.
   - Scanner `v0.0.25` adds Bitbucket pipeline support and a further GitHub Actions git `safe.directory` fix so repo/commit metadata can be attached to scan results. See [`Cloudanix/container-image-scanner`](https://github.com/Cloudanix/container-image-scanner) PR #29.
 

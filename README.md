@@ -18,11 +18,21 @@ This Github Action from Cloudanix scans your docker images for Vulnerabilities w
 
 ## `disable-policy-evaluation`
 
-**Optional** Disable Policy Evaluation. Defaults to false.
+**Optional** Disable Policy Evaluation. Defaults to false. Set `'true'` to report findings without failing the step. Releases before the one that pins a scanner with the boolean-flag fix never evaluated policy; see the [changelog](CHANGELOG.md).
 
 ## `debug-mode`
 
 **Optional** Enable Debug Mode. Defaults to false.
+
+You can also get debug output without editing the workflow: on a failed or finished run, choose **Re-run jobs > Enable debug logging**. GitHub sets `RUNNER_DEBUG=1` for that run and passes it into this action's container, and the scanner turns on debug output. Setting `CDX_DEBUG: 'true'` in the step's or job's `env:` also works. Needs an action release whose scanner pin reads these variables; see [Upgrading](#upgrading).
+
+Debug output never includes the authorization token.
+
+## When the step fails
+
+Only a policy failure (the image exceeds your policy thresholds) fails the step. If the scan cannot run, for example because of a configuration, network or scanner error, the step logs a warning annotation, `Cloudanix image scan failed with exit code N. Continuing without failing the build`, and passes. This needs an action release whose scanner pin exits `3` on a policy failure; see [Upgrading](#upgrading).
+
+GitHub builds this action's Docker image before the step runs. If that build fails, for example because Docker Hub is unreachable, the step fails before the scanner starts. Add `continue-on-error: true` to the step if that must not fail your job.
 
 ## Outputs
 
