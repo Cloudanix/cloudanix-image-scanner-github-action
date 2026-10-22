@@ -1,0 +1,130 @@
+name: Auto Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  tag:
+    name: Create Semantic Version Tag
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Check if HEAD is already tagged
+        id: check
+        run: |
+          git fetch --tags
+          EXISTING=$(git tag --points-at HEAD | grep -E "^v?[0-9]+\.[0-9]+\.[0-9]+$" | head -1)
+          if [ -n "$EXISTING" ]; then
+            echo "HEAD is already tagged as $EXISTING — skipping release."
+            echo "already_tagged=true" >> $GITHUB_OUTPUT
+          else
+            echo "already_tagged=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Get latest semver tag
+        id: latest_tag
+        if: steps.check.outputs.already_tagged == 'false'
+        run: |
+          # Find highest version across both formats (1.1.1 and v1.1.1) and normalise to v-prefix
+          WITH_V=$(git tag -l "v[0-9]*.[0-9]*.[0-9]*" | sort -V | tail -1)
+          WITHOUT_V=$(git tag -l "[0-9]*.[0-9]*.[0-9]*" | sort -V | tail -1)
+          
+          # Normalise both to v-prefix for comparison, then pick the higher one
+          A="${WITH_V:-v0.0.0}"
+          B="${WITHOUT_V:+v${WITHOUT_V}}"
+          B="${B:-v0.0.0}"
+          LATEST=$(printf '%s\n' "$A" "$B" | sort -V | tail -1)
+          
+          if [ "$LATEST" = "$A" ] && [ "$A" != "v0.0.0" ]; then
+            RAW_TAG="$WITH_V"
+          elif [ "$LATEST" = "$B" ] && [ "$B" != "v0.0.0" ]; then
+            RAW_TAG="$WITHOUT_V"
+          else
+            RAW_TAG=""
+          fi
+          
+          echo "tag=${LATEST:-v0.0.0}" >> $GITHUB_OUTPUT
+          echo "raw_tag=$RAW_TAG" >> $GITHUB_OUTPUT
+
+      - name: Determine bump type from all merged PRs since last tag
+        id: bump
+        if: steps.check.outputs.already_tagged == 'false'
+        run: |
+          RAW_TAG="${{ steps.latest_tag.outputs.raw_tag }}"
+          
+          if [ -n "$RAW_TAG" ]; then
+            SINCE=$(git for-each-ref --format='%(creatordate:iso-strict)' "refs/tags/$RAW_TAG")
+            SEARCH_QUERY="merged:>$SINCE"
+            echo "Fetching PR labels since tag $RAW_TAG (date: $SINCE)"
+          else
+            SEARCH_QUERY="is:merged"
+            echo "No previous tag found. Fetching all PR labels."
+          fi
+
+          # Fetch labels from all PRs merged since the last tag
+          ALL_LABELS=$(gh pr list --state merged --search "$SEARCH_QUERY" \
+            --json labels --jq '.[].labels[].name' 2>/dev/null || echo "")
+
+          echo "Found labels: $ALL_LABELS"
+
+          # Default to patch — also covers direct commits with no PRs
+          BUMP="patch"
+          if [ -n "$ALL_LABELS" ]; then
+            if echo "$ALL_LABELS" | grep -qi "major"; then
+              BUMP="major"
+            elif echo "$ALL_LABELS" | grep -qi "minor"; then
+              BUMP="minor"
+            fi
+          fi
+
+          echo "bump=$BUMP" >> $GITHUB_OUTPUT
+          echo "Bump type: $BUMP"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compute new version
+        id: version
+        if: steps.check.outputs.already_tagged == 'false'
+        run: |
+          VERSION="${{ steps.latest_tag.outputs.tag }}"
+          VERSION="${VERSION#v}"
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+
+          case "${{ steps.bump.outputs.bump }}" in
+            major) MAJOR=$((MAJOR + 1)); MINOR=0; PATCH=0 ;;
+            minor) MINOR=$((MINOR + 1)); PATCH=0 ;;
+            patch) PATCH=$((PATCH + 1)) ;;
+          esac
+
+          NEW_TAG="v${MAJOR}.${MINOR}.${PATCH}"
+          echo "new_tag=$NEW_TAG" >> $GITHUB_OUTPUT
+          echo "New version: $NEW_TAG"
+
+      - name: Create and push tag
+        if: steps.check.outputs.already_tagged == 'false'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "${{ steps.version.outputs.new_tag }}" \
+            -m "Release ${{ steps.version.outputs.new_tag }}"
+          git push origin "${{ steps.version.outputs.new_tag }}"
+
+      - name: Create GitHub release
+        if: steps.check.outputs.already_tagged == 'false'
+        run: |
+          gh release create "${{ steps.version.outputs.new_tag }}" \
+            --title "${{ steps.version.outputs.new_tag }}" \
+            --generate-notes \
+            --latest
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
